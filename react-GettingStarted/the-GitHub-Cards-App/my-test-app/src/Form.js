@@ -5,7 +5,13 @@ class Form extends React.Component {
     // userNameInput = React.createRef();
     handleSubmit = event => {
         event.preventDefault();
-        fetch(`https://api.github.com/users/${this.state.userName}`).then(res => res.json()).then(data => this.setState({ userName: data.login }));
+        fetch(`https://api.github.com/users/${this.state.userName}`)
+            .then(res => res.json())
+            .then(data => {
+                this.setState({ userName: data.login });
+                this.props.onSubmit(data);
+                this.setState({ userName: '' })
+            });
         // console.log(this.userNameInput.current.value);
         // console.log(this.state.userName);
     };

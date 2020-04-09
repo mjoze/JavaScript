@@ -5,11 +5,11 @@ import Form from './Form';
 // const App = ({ title }) => (
 //   <div className="header">{title}</div>
 // )
-const testData = [
-  { name: "Dan Brona", avatar_url: "https://avatars0.githubusercontent.com/u/810438?v=4", company: "Facebook" },
-  { name: "Jenna Arona", avatar_url: "https://avatars2.githubusercontent.com/u/6820?v=4", company: "Facebook" },
-  { name: "Brian Kona", avatar_url: "https://avatars2.githubusercontent.com/u/62648?v=4", company: "Facebook" },
-]
+// const testData = [
+//   { name: "Dan Brona", avatar_url: "https://avatars0.githubusercontent.com/u/810438?v=4", company: "Facebook" },
+//   { name: "Jenna Arona", avatar_url: "https://avatars2.githubusercontent.com/u/6820?v=4", company: "Facebook" },
+//   { name: "Brian Kona", avatar_url: "https://avatars2.githubusercontent.com/u/62648?v=4", company: "Facebook" },
+// ]
 
 class App extends React.Component {
   // constructor(props) {
@@ -19,12 +19,19 @@ class App extends React.Component {
   //   };
   // }
   state = {
-    profiles: testData
+    // profiles: testData
+    profiles: []
+
   };
+  addNewProfile = (profileData) => {
+    this.setState(prevState => ({
+      profiles: [...prevState.profiles, profileData]
+    }));
+  }
   render() {
     return (
       <>
-        <Form />
+        <Form onSubmit={this.addNewProfile} />
         <div className="header">{this.props.title}</div>
         <Cardlist profiles={this.state.profiles} />
       </>
