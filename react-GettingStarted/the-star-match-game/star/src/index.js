@@ -6,7 +6,6 @@ import StartMatch from './StartMatch'
 
 ReactDOM.render(
   <React.StrictMode>
-    <StartMatch />
     <App />
   </React.StrictMode>,
   document.getElementById('root')
