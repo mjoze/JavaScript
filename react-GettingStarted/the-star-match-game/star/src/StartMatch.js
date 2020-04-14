@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PlayNumber from './PlayNumber';
 import StarsDisplay from './StarsDisplay';
+import PlayAgain from './PlayAgain';
 import './StartMatch.css';
 
 
@@ -11,6 +12,13 @@ const StarMatch = () => {
     const [candidateNums, setCandidateNums] = useState([]);
 
     const candidatesAreWrong = utils.sum(candidateNums) > stars;
+    const gameIsDone = availableNums.length === 0;
+
+    const resetGame = () => {
+        setStars(utils.random(1, 9));
+        setAvailableNums(utils.range(1, 9));
+        setCandidateNums([]);
+    }
 
     const numberStatus = (number) => {
         if (!availableNums.includes(number)) {
@@ -46,7 +54,18 @@ const StarMatch = () => {
         </div>
             <div className="body">
                 <div className="left">
-                    <StarsDisplay count={stars} utils={utils} />
+                    {gameIsDone ?
+                        (
+                            <PlayAgain
+                                onClick={resetGame}
+                            />
+                        ) : (
+                            <StarsDisplay
+                                count={stars}
+                                utils={utils}
+                            />
+                        )}
+
                 </div>
                 <div className="right">
                     {utils.range(1, 9).map(number =>
