@@ -4,10 +4,10 @@ const PlayNumber = (props) => (
     <button
         className="number"
         style={{ backgroundColor: props.colors[props.status] }}
-        onClick={() => console.log('Num', props.number)}
+        onClick={() => props.onClick(props.number, props.status)}
     >
         {props.number}
-    </button>
+    </button >
 )
 
 export default PlayNumber;
