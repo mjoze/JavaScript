@@ -7,6 +7,21 @@ import './StartMatch.css';
 const StarMatch = () => {
     const [stars, setStars] = useState(utils.random(1, 9));
     // const stars = 9;
+    const [availableNums, setAvailableNums] = useState(utils.range(1, 9));
+    const [candidateNums, setCandidateNums] = useState([]);
+
+    const candidatesAreWrong = utils.sum(candidateNums) > stars;
+
+    const numberStatus = (number) => {
+        if (!availableNums.includes(number)) {
+            return 'used';
+        }
+        if (candidateNums.includes(number)) {
+            return candidatesAreWrong ? 'wrong' : 'candidate';
+        }
+        return 'available';
+    };
+
     return (
         <div className="game">
             <div className="help">
@@ -18,7 +33,12 @@ const StarMatch = () => {
                 </div>
                 <div className="right">
                     {utils.range(1, 9).map(number =>
-                        <PlayNumber key={number} number={number} />
+                        <PlayNumber
+                            colors={colors}
+                            key={number}
+                            status={numberStatus(number)}
+                            number={number}
+                        />
                     )}
                 </div>
             </div>
