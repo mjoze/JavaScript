@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PlayNumber from './PlayNumber';
 import StarsDisplay from './StarsDisplay';
 import PlayAgain from './PlayAgain';
@@ -10,9 +10,21 @@ const StarMatch = () => {
     // const stars = 9;
     const [availableNums, setAvailableNums] = useState(utils.range(1, 9));
     const [candidateNums, setCandidateNums] = useState([]);
+    const [secondsLeft, setSecondsLeft] = useState(10);
+
+    useEffect(() => {
+        if (secondsLeft > 0 && availableNums.length > 0) {
+            const timerId = setTimeout(() => {
+                setSecondsLeft(secondsLeft - 1)
+            }, 1000);
+            return () => clearTimeout(timerId);
+        }
+    });
 
     const candidatesAreWrong = utils.sum(candidateNums) > stars;
-    const gameIsDone = availableNums.length === 0;
+    // const gameIsDone = availableNums.length === 0;
+    // const gameIsLost = secondsLeft === 0;
+    const gameStatus = availableNums.length === 0 ? 'won' : secondsLeft === 0 ? 'lost' : 'active'
 
     const resetGame = () => {
         setStars(utils.random(1, 9));
@@ -31,7 +43,7 @@ const StarMatch = () => {
     };
 
     const onNumberClick = (number, currentStatus) => {
-        if (currentStatus === 'used') {
+        if (gameStatus !== 'active' || currentStatus === 'used') {
             return;
         }
 
@@ -54,10 +66,11 @@ const StarMatch = () => {
         </div>
             <div className="body">
                 <div className="left">
-                    {gameIsDone ?
+                    {gameStatus !== 'active' ?
                         (
                             <PlayAgain
                                 onClick={resetGame}
+                                gameStatus={gameStatus}
                             />
                         ) : (
                             <StarsDisplay
@@ -79,7 +92,7 @@ const StarMatch = () => {
                     )}
                 </div>
             </div>
-            <div className="timer">Time Remaining: 10</div>
+            <div className="timer">Time Remaining: {secondsLeft}</div>
         </div>
     );
 };
