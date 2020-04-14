@@ -1,5 +1,5 @@
 import React from 'react';
-import StartMatch from './StartMatch'
+import StartMatch from './StartMatch';
 
 
 function App() {
